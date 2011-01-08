@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.gtugs.bh.client.ui.resource.ResourceBundle" field="bundle"/>
+	
+	<g:HTMLPanel>
+		<h2>Choose the method of raffle:</h2>
+		<g:HTMLPanel styleName="{bundle.css.boxouter}" addStyleNames="{bundle.css.smallbox}, {bundle.css.b1}">
+			<g:HTMLPanel styleName="{bundle.css.box}">
+				<h3>Names from a list</h3>
+				Raffle one name each time from a given list of names
+				<g:Hyperlink styleName="{bundle.css.boxlink}" targetHistoryToken="nameFromList/setup" ui:field="link1">Pick this</g:Hyperlink>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="{bundle.css.boxouter}" addStyleNames="{bundle.css.smallbox}, {bundle.css.b2}">
+			<g:HTMLPanel styleName="{bundle.css.box}">
+				<h3>Number from a range</h3>
+				Raffle one number from a given range
+				<g:Hyperlink styleName="{bundle.css.boxlink}" targetHistoryToken="numberRange/setup" ui:field="link2">Pick this</g:Hyperlink>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<g:HTMLPanel styleName="{bundle.css.boxouter}" addStyleNames="{bundle.css.smallbox}, {bundle.css.b3}">
+			<g:HTMLPanel styleName="{bundle.css.box}">
+				<h3>Associate names to goods</h3>
+				Raffle one item and one name, and present both (use to raffle swags, for example)
+				<g:Hyperlink styleName="{bundle.css.boxlink}" targetHistoryToken="itemToName/setup" ui:field="link3">Pick this</g:Hyperlink>
+			</g:HTMLPanel>
+		</g:HTMLPanel>
+		<div style="clear:left;"/>
+	</g:HTMLPanel>
+</ui:UiBinder> 
