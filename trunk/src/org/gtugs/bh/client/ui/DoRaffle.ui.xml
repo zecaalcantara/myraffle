@@ -1,0 +1,14 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.gtugs.bh.client.ui.resource.ResourceBundle" field="bundle"/>
+	<g:HTMLPanel styleName="{bundle.css.boxouter}">
+		<g:HTMLPanel styleName="{bundle.css.bigbox}">
+			<g:Label ui:field="description"></g:Label>
+			<g:SimplePanel ui:field="result"/>
+			<g:Button ui:field="sendButton" ><ui:msg key="raffle">Click to raffle!</ui:msg></g:Button>
+			<g:Label ui:field="error" styleName="{bundle.css.error}"></g:Label>
+			<g:FlowPanel ui:field="oldResults" styleName="{bundle.css.pastResults}"/>
+		</g:HTMLPanel>
+	</g:HTMLPanel>
+</ui:UiBinder> 
