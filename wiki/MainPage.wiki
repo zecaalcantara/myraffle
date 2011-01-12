@@ -1,0 +1,11 @@
+#summary Main page for visitors.
+
+= Introduction =
+
+This project was born by the hands of some guys of [http://bh.gtugs.org GTUG-BH]. It's a simple application to raffle numbers, names and items to names with a (hopefully) nice visual appeal. 
+
+Use it if you want to raffle swags on a conference, for example. Or just to play with the airport-like panel.
+
+= Warning =
+
+It was done in a rush, so no support should be expected. In special, it wasn't tested on Internet Explorer.
