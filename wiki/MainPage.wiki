@@ -6,6 +6,8 @@ This project was born by the hands of some guys of [http://bh.gtugs.org GTUG-BH]
 
 Use it if you want to raffle swags on a conference, for example. Or just to play with the airport-like panel.
 
-= Warning =
+= Disclaimer =
 
 It was done in a rush, so no support should be expected. In special, it wasn't tested on Internet Explorer.
+
+Also, due to restricted availability of the developer (aka me), it lacks appropriate international support, and is currently only in English. If you want to port it to another language, get in touch.
