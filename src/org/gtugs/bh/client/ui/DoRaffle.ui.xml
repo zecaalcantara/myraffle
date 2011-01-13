@@ -8,7 +8,7 @@
 			<g:SimplePanel ui:field="result"/>
 			<g:Button ui:field="sendButton" ><ui:msg key="raffle">Click to raffle!</ui:msg></g:Button>
 			<g:Label ui:field="error" styleName="{bundle.css.error}"></g:Label>
-			<g:FlowPanel ui:field="oldResults" styleName="{bundle.css.pastResults}"/>
+			<g:FlowPanel ui:field="pastResults" styleName="{bundle.css.pastResults}"/>
 		</g:HTMLPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

@@ -32,7 +32,7 @@ public class DoRaffle extends Composite {
 	}
 	
 	@UiField SimplePanel result;
-	@UiField FlowPanel oldResults;
+	@UiField FlowPanel pastResults;
 	@UiField Label description, error;
 	@UiField Button sendButton;
 	
@@ -40,6 +40,7 @@ public class DoRaffle extends Composite {
 
 	private Integer from, to;
 	private HashSet<Integer> numbersRaffledFromRange;
+	private String currentResultFull;
 	
 	public DoRaffle() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -131,10 +132,10 @@ public class DoRaffle extends Composite {
 	void onClick(ClickEvent e) {
 		
 		if (result.getWidget()!=null) {
-			String text=((AnimatedLabel) result.getWidget()).getText();
-			int pos=oldResults.getWidgetCount()+1;
+			int pos=pastResults.getWidgetCount()+1;
 			result.clear();
-			oldResults.insert(new Label(pos+": "+text), 0);
+			pastResults.insert(new Label(pos+": "+currentResultFull), 0);
+			currentResultFull=null;
 		}
 		String raffled1=null;
 		String raffled2=null;
@@ -166,6 +167,8 @@ public class DoRaffle extends Composite {
 			return;
 		}
 
+		currentResultFull=text;
+		
 		AnimatedLabel beingRaffled=new AnimatedLabel();
 		beingRaffled.setTextLength(text.length());
 		result.setWidget(beingRaffled);
