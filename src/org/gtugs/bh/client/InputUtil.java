@@ -33,6 +33,10 @@ public class InputUtil {
 		return result;
 	}
 	
+	public static boolean validateRange(Integer from, Integer to) {
+		return (from!=null && to!=null && from<to);
+	}
+	
 	public static Integer transformTextToInteger(String text) {
 		if (text!=null && !text.trim().isEmpty()) {
 			try {
