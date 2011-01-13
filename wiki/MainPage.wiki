@@ -2,9 +2,11 @@
 
 = Introduction =
 
-This project was born by the hands of some guys of [http://bh.gtugs.org GTUG-BH]. It's a simple application to raffle numbers, names and items to names with a (hopefully) nice visual appeal. 
+This project born by the hands of some guys from [http://bh.gtugs.org GTUG-BH]. It's a simple application to raffle numbers, names and items to names with a (hopefully) nice visual appeal. 
 
-Use it if you want to raffle swags on a conference, for example. Or just to play with the airport-like panel.
+Use it if you want to raffle swags on a conference, for example. Or just to play with the airport-like panel :-)
+
+*The application is running on Google !AppEngine at http://dicenroll.appspot.com/ *
 
 = Disclaimer =
 
