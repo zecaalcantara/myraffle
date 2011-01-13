@@ -1,5 +1,6 @@
 package org.gtugs.bh.client.ui;
 
+import java.util.HashSet;
 import java.util.TreeSet;
 
 import org.gtugs.bh.client.CurrentSetup;
@@ -35,7 +36,10 @@ public class DoRaffle extends Composite {
 	@UiField Label description, error;
 	@UiField Button sendButton;
 	
-	private TreeSet<String> listToRaffle1, listToRaffle2; 
+	private TreeSet<String> listToRaffle1, listToRaffle2;
+
+	private Integer from, to;
+	private HashSet<Integer> numbersRaffledFromRange;
 	
 	public DoRaffle() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -68,23 +72,59 @@ public class DoRaffle extends Composite {
 			break;
 		case NUMBER_RANGE:
 			addStyleName(ResourceBundle.instance.css().b2());
-			Integer from=CurrentSetup.get().getSetupData(CurrentSetup.KEY_RANGE_FROM);
-			Integer to=CurrentSetup.get().getSetupData(CurrentSetup.KEY_RANGE_TO);
-			listToRaffle1=InputUtil.transformRangeToSet(from, to);
+			from=CurrentSetup.get().getSetupData(CurrentSetup.KEY_RANGE_FROM);
+			to=CurrentSetup.get().getSetupData(CurrentSetup.KEY_RANGE_TO);
 			description.setText("Raffle numbers from "+from+" to "+to);
 			break;
 		}
-		if (listToRaffle1==null) {
+		if (listToRaffle1==null && (from==null || to==null) ) {
 			error.setText("Invalid input. Cannot find a valid list of items to raffle");
 			sendButton.setEnabled(false);
 		}
-			
 	}
 	
 	protected String raffleFromSet(TreeSet<String> set) {
+		if (set.isEmpty()) {
+			return null;
+		}
 		String raffled=(String) set.toArray()[Random.nextInt(set.size())];
 		set.remove(raffled);
 		return raffled;
+	}
+	
+	protected String raffleFromRange(Integer from, Integer to) {
+		if (numbersRaffledFromRange==null) {
+			numbersRaffledFromRange=new HashSet<Integer>();
+		}
+		// try to raffle 20 times until a number that have not appeared before gets raffled.
+		// If it wasn't possible to find such a number after 20 tries, let's search
+		// sequentially the first valid number after that 20th try. This is not exactly 
+		// random, but it is better than keep trying undefinitely and hang the UI
+		int tries=0;
+		Integer raffled;
+		do {
+			raffled=Random.nextInt(to-from+1)+from;
+			tries++;
+		} while (numbersRaffledFromRange.contains(raffled) && tries<20);
+		if (numbersRaffledFromRange.contains(raffled)) {
+			Integer firstValidAfterRaffled=null;
+			for (int i=raffled+1; i<=to && firstValidAfterRaffled==null; i++) {
+				if (!numbersRaffledFromRange.contains(i)) {
+					firstValidAfterRaffled=i;
+				}
+			}
+			for (int i=from; i<raffled && firstValidAfterRaffled==null; i++) {
+				if (!numbersRaffledFromRange.contains(i)) {
+					firstValidAfterRaffled=i;
+				}
+			}
+			raffled=firstValidAfterRaffled;
+		}
+		if (raffled==null) {
+			return null;
+		}
+		numbersRaffledFromRange.add(raffled);
+		return String.valueOf(raffled);
 	}
 	
 	@UiHandler("sendButton")
@@ -96,23 +136,36 @@ public class DoRaffle extends Composite {
 			result.clear();
 			oldResults.insert(new Label(pos+": "+text), 0);
 		}
-		if (listToRaffle1.isEmpty()) {
+		String raffled1=null;
+		String raffled2=null;
+		String text=null;
+		RaffleMethodEnum type=CurrentSetup.get().getType();
+		
+		switch (type) {
+		case NUMBER_RANGE:
+			raffled1=raffleFromRange(from, to);
+			text=raffled1;
+			break;
+		case NAME_FROM_LIST:
+			raffled1=raffleFromSet(listToRaffle1);
+			text=raffled1;
+			break;
+		case ITEM_TO_NAME:
+			raffled1=raffleFromSet(listToRaffle1);
+			raffled2=raffleFromSet(listToRaffle2);
+			text=raffled1+"-"+raffled2;
+			break;
+		}
+		if (raffled1==null) {
 			sendButton.setEnabled(false);
 			error.setText("no more names to raffle");
 			return;
-		} else if (CurrentSetup.get().getType()==RaffleMethodEnum.ITEM_TO_NAME && 
-				listToRaffle2.isEmpty()) {
+		} else if (type==RaffleMethodEnum.ITEM_TO_NAME && raffled2==null) {
 			sendButton.setEnabled(false);
 			error.setText("no more items to raffle");
 			return;
 		}
 
-		String raffled1=raffleFromSet(listToRaffle1);
-		String raffled2=null;
-		if (listToRaffle2!=null) {
-			raffled2=raffleFromSet(listToRaffle2);
-		}
-		String text=raffled2==null?raffled1:(raffled1+"-"+raffled2);
 		AnimatedLabel beingRaffled=new AnimatedLabel();
 		beingRaffled.setTextLength(text.length());
 		result.setWidget(beingRaffled);
