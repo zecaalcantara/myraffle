@@ -7,6 +7,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -34,10 +35,10 @@ public class AnimatedLabel extends Composite implements HasText {
 	
 	public void setTextLength(int length) {
 		for (int i=0; i<Math.min(17, length); i++) {
-			Label top=new Label();
+			HTML top=new HTML();
 			top.setStyleName(ResourceBundle.instance.css().letterbox());
 			containerTop.add(top);
-			Label bottom=new Label();
+			HTML bottom=new HTML();
 			bottom.setStyleName(ResourceBundle.instance.css().letterbox());
 			bottom.addStyleName(ResourceBundle.instance.css().letterboxbottom());
 			containerBottom.add(bottom);
@@ -55,8 +56,13 @@ public class AnimatedLabel extends Composite implements HasText {
 		int chars=containerTop.getWidgetCount();
 		for (int i=0; i<chars; i++) {
 			String c=String.valueOf(i<text.length()?text.charAt(i):" ");
-			((Label) containerTop.getWidget(i)).setText(c);
-			((Label) containerBottom.getWidget(i)).setText(c);
+			if (c.equals(" ")) {
+				((HTML) containerTop.getWidget(i)).setHTML("&nbsp;");
+				((HTML) containerBottom.getWidget(i)).setHTML("&nbsp;");
+			} else {
+				((Label) containerTop.getWidget(i)).setText(c);
+				((Label) containerBottom.getWidget(i)).setText(c);
+			}
 		}
 	}
 	
